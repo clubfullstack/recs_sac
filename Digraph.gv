@@ -1,0 +1,38 @@
+// The Requirements
+digraph {
+rankdir=LR
+size="200,50"
+	"Mission-01" [label="Mission-01
+User requirement"]
+	"Mission-02" [label="Mission-02
+Constraints"]
+	"Mission-03" [label="Mission-03
+Sounding Rocket"]
+	"SCI-01" [label="SCI-01
+Science requirement I"]
+		"Mission-02" -> "SCI-01"
+	"SCI-02" [label="SCI-02
+Science requirement II"]
+		"Mission-02" -> "SCI-02"
+	"SCI-03" [label="SCI-03
+Science requirement III"]
+		"Mission-01" -> "SCI-03"
+		"Mission-03" -> "SCI-03"
+	"Tech-1" [label="Tech-1
+Science bandpass"]
+		"SCI-01" -> "Tech-1"
+	"Tech-2" [label="Tech-2
+IWA"]
+		"SCI-01" -> "Tech-2"
+	"Tech-3" [label="Tech-3
+OWA"]
+		"SCI-01" -> "Tech-3"
+	"Tech-4" [label="Tech-4
+Pointing Stability"]
+		"SCI-02" -> "Tech-4"
+		"SCI-03" -> "Tech-4"
+	"Tech-5" [label="Tech-5
+Telescope aperture"]
+		"Mission-03" -> "Tech-5"
+		"SCI-02" -> "Tech-5"
+}

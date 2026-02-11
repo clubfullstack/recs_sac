@@ -1,0 +1,15 @@
+settings:
+  digits: 3                      # Número de dígitos para o ID do requisito (por exemplo, REQ-001)
+  prefix: REQ                     # Prefixo do ID do requisito (REQ)
+  sep: '-'                        # Separador entre o prefixo e o número do requisito
+attributes:
+  defaults:
+    doc:
+      name: 'Requisitos'          # Nome do documento
+      title: 'Requisitos para _Doorstop_'  # Título do documento
+      ref: 'REQ-DS-2026'           # Referência do documento
+      by: 'Wfg'                    # Autor ou responsável pela documentação
+      major: '1'                   # Versão principal
+      minor: 'A'                   # Versão secundária
+      copyright: 'Doorstop'        # Informações de copyright
+

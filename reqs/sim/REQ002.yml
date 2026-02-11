@@ -1,0 +1,12 @@
+active: true
+derived: false
+header: |
+  Visualização Geoespacial em Mapa Interativo
+level: 2.0
+links:
+- REQ001: D83miwfz1J0Dqmi2yVPYEqnU7e5Z2wT3o7VIZiopAxQ=
+normative: true
+ref: ''
+reviewed: zFQ_2xREvHkwSosng47ABaeE2aOM9qEo9xPi8TJwpUU=
+text: |
+  O sistema deve disponibilizar uma visualização geoespacial em mapa interativo, atualizada em tempo real, que exiba obrigatoriamente: posições de aeronaves, posições de drones, as restrições de uso de espaço, as áreas solicitadas, os demais objetos definidos no cenário da simulação. A visualização deve refletir o estado atual da simulação conforme os dados produzidos pelo motor de simulação e deve permitir que gestores, operadores e analistas acompanhem a execução para fins de conscientização situacional.

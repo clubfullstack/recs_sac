@@ -1,0 +1,11 @@
+active: true
+derived: false
+header: |
+  Adequação das Informações por Grupo de Usuários   # Cabeçalho
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: D83miwfz1J0Dqmi2yVPYEqnU7e5Z2wT3o7VIZiopAxQ=
+text: |
+  O sistema deve disponibilizar informações filtradas conforme o grupo de usuário, garantindo que cada perfil (Operacional, Tecnologia, Governança/Compliance) visualize apenas os dados previamente definidos como relevantes para suas funções. A definição de quais informações pertencem a cada grupo deve seguir a matriz de perfis aprovada pela organização.  # Texto do requisito
