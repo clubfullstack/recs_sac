@@ -1,155 +1,130 @@
-[![DOI](https://zenodo.org/badge/68635117.svg)](https://zenodo.org/badge/latestdoi/68635117)
-[![Build Status](https://travis-ci.com/douglase/doorstop_requirements_template.svg?branch=main)](https://travis-ci.com/douglase/doorstop_requirements_template)
+Fico feliz que tenha dado certo! Vamos criar um `README.md` para documentar o que foi feito até agora, incluindo os requisitos adicionados.
 
-#  doorstop Requirements Template
+Aqui está um modelo que você pode usar para o seu projeto:
 
+---
 
+# Doorstop - Requisitos do Sistema
 
+Este repositório contém os requisitos do sistema para o projeto, que utiliza o **Doorstop** como ferramenta para gerenciar os requisitos.
 
-## Features:
-* version controlled requirements tracking
-* Generates a graphviz diagram (see example at bottom of page) showing relations between requirements
-* Uses pandoc to translate doorstop generated html pages into github friendly markdown with links that work on github
+## O que foi feito
 
-## Requirements
+* **Criação de um novo projeto de requisitos** usando o **Doorstop**.
+* **Adição de dois requisitos** para o sistema de simulação, com **requisitos pai e filho**.
+* **Configuração do GitHub para controle de versão**, incluindo autenticação via **Token de Acesso Pessoal (PAT)**.
 
-* Bash
-* doorstop (Browning and Adams, 2014,
-  * http://dx.doi.org/10.4236/jsea.2014.73020):
-  * https://doorstop.readthedocs.io/en/latest/#setup
-* pandoc: http://pandoc.org/installing.html
-* graphviz: https://pypi.python.org/pypi/graphviz
-* pdflatex (optional, for Beamer slide output)
+## Estrutura do Repositório
 
-## Installation
-
-### Note:
-
-By default, doorstop only prints one level of links, so if a level is
-skipped, it won't be shown. @douglase's branch adds a setting which
-expands published links to sublevels. To install this branch which has been tested with the template:
-
-	git clone git@github.com:douglase/doorstop.git
-	cd doorstop
-	python setup.py develop
-
-### macOS:
-
-Example setup from command line in OS-X/macOS (with [homebrew](http://brew.sh/) and [pip](https://packaging.python.org/key_projects/#pip)):
-
-    brew install pandoc
-    brew install graphviz
-    git clone https://github.com/douglase/doorstop_requirements_template
-    pip install graphviz
-
-### Linux
-
-In Ubuntu or other Debian variant:
-
-	sudo apt-get install graphviz
-	sudo apt-get install pandoc
-	pip install graphviz
-
-Optional for editing in a spreadsheet: `sudo apt-get install libreoffice`
-Optional for generating PDF output: `sudo apt-get install texlive-latex-extra`
-	
-## Usage
-To run the template (which generates a sample subset of post-facto requirements imagined for the PICTURE sounding rocket to image a debris disk [Chakrabarti et al. 2016](http://adsabs.harvard.edu/abs/2016JAI.....540004C), [Douglas et al 2016](http://adsabs.harvard.edu/abs/2016arXiv160700277D)):
-
-    ./doorstop_sync.sh 
-    
-The template includes three levels which were created by the following commands:
-
-    doorstop create L1 ./reqs/L1
-    doorstop create L2 ./reqs/L2 --parent L1
-    doorstop create L3 ./reqs/L3 --parent L2
-
-### To Edit:
-
-* make and save edits to the .csv file related to the requirement of interest (i.e. sci_L2.csv)
-	* _this step can be done repeatedly and by users without the dependencies installed_ (by directly editing .csv files on github, for example)
-* run _./doorstop_sync.sh_
-* commit and push changes to view markdown [output in dist/ directory](dist/index.markdown)
-
-
-
-
-[Linked Requirements Documents and Traceability matrix](dist/index.markdown)
-
-
-## Outputs of the template
-
-### Published Documents:
-
--   [L1](dist/L1.markdown)
--   [L2](dist/L2.markdown)
--   [L3](dist/L3.markdown)
-
-
-## Most recently committed flowchart:
-![Most recently committed flowchart of requirements](Digraph_gv.png) Requirements flowchart
-
-
-## Continuous Integration 
-
-This repository has been setup to publish to Travis CI, see [CI setup guide](guides/CI-setup.md) and published to github pages, for the latest PDF, see: [blob/gh-pages/beamer.pdf](../gh-pages/beamer.pdf)
-
-
-## Flow of the scripts used to generate flowchart and human readible markdown files:
+A estrutura do projeto foi configurada da seguinte maneira:
 
 ```
-                                   ./sync_doorstop
-+---------------------------------------------------------------------------------------------+
-|   +-------------------------+                                                               |
-|   |INPUT                    |                                                               |
-|   |(.CSV or .XLSX):         |                         +---------------------------------+   |
-|   |Tables with columns for :|                         | each requirement gets a YAML    |   |
-|   |uid, short name,         |                         |(YAML Ain't Markup Language):    |   |
-|   |text, links, notes.      | doorstop Python Module  |file w/ name, text, links, notes.|   |
-|   |                         +-----------------------> | and its  metadata.              |   |
-|   |                         |"doorstop import"        |"*reqs/L1/CGI-BSR0.yml           |   |
-|   |  "LevelOneReqs.csv"     |                         | *reqs/L1/CGI-BSR1.yml           |   |
-|   |                         |                         | *reqs/L1/..."                   |   |
-|   --------------------------+                         +----------+--------------------+-+   |
-|                                                                  |                    |     |
-|                            doorstop Python Module                |                    +>+   |
-|                 +<-----------------------------------------------+                      |   |
-|                 |          "doorstop"                                                   |   |
-|                 v                                                                       |   |
-|         +-------+--------------------------------------------------------------------+  |   |
-|         |   parses yaml files, resolves links and warns if unconnected requirements. |  |   |
-|         ++---------------------------------------------------------------------------+  |   |
-|          |                                                                              |   |
-|          |doorstop publish all ./dist                                                   |   |
-|          |                                                                              |   |
-|     +----v--------------------------------------------------------------------+         |   |
-|     | generates html document for each input document with hyperlinks.        |         |   |
-|     +-+-----------------------------------------------------------------------+         |   |
-|       |                                                                                 |   |
-|       | pandoc via MakeFile                                                             |   |
-|       |                                                                                 |   |
-|     +-+------------------------------------------------------------------------------+  |   |
-|     | converts html to markdown that can be parsed by github. Can also export LaTeX  |  |   |
-|     | or MSWord .docx. (http://pandoc.org).                                          |  |   |
-|     ++-------------------------------------------------------------------------------+  |   |
-|      |                                                                                  |   |
-|      |sed  and python                                                                   |   |
-|      |                                                                                  |   |
-|    +-+--------------------------+                                                       |   |
-|    |hack to make relative links |                  doorstop python api and              |   |
-|    |work-on-github.-------------+                  Graphviz (via graphviz python module)|   |
-|    +----------------------------|                                                       |   |
-|                                                                                         |   |
-|                                                                                         |   |
-|    +-------------------------------------------------------------------------------------+  |
-|    |draws connections between each linked requirement and minimizes energy of network   ||  |
-|    |and exports requirements network asa png file.                                      ||  |
-|    +-------------------------------------------------------------------------------------+  |
-|                                                                                             |
-|                       made using http://asciiflow.com                                       |
-+---------------------------------------------------------------------------------------------+
-
-
-
+/
+├── reqs/
+│   └── sim/
+│       ├── REQ001.yml
+│       └── REQ002.yml
+├── .gitignore
+└── README.md
 ```
 
+* O diretório `reqs/sim/` contém os arquivos YAML que definem os requisitos do sistema.
+* `SIM001.yml` e `SIM-1.yml` são os arquivos de requisitos.
+
+---
+
+## Requisitos Adicionados
+
+### Requisito 1: **REQ001**
+
+**Descrição:**
+
+O sistema deve disponibilizar informações filtradas conforme o grupo de usuário, garantindo que cada perfil (Operacional, Tecnologia, Governança/Compliance) visualize apenas os dados previamente definidos como relevantes para suas funções.
+
+**Detalhes:**
+
+* **Header:** Adequação das Informações por Grupo de Usuários
+* **Level:** 1.0
+* **Normativo:** `true`
+* **Referência:** (não especificada)
+* **Revisado:** `true`
+* **Texto:**
+
+```
+O sistema deve disponibilizar informações filtradas conforme o grupo de usuário, garantindo que cada perfil (Operacional, Tecnologia, Governança/Compliance) visualize apenas os dados previamente definidos como relevantes para suas funções. A definição de quais informações pertencem a cada grupo deve seguir a matriz de perfis aprovada pela organização.
+```
+
+### Requisito 2: **REQ002**
+
+**Descrição:**
+
+O sistema deve disponibilizar uma visualização geoespacial em mapa interativo, atualizada em tempo real, que exiba obrigatoriamente: posições de aeronaves, posição de drones, as restrições de uso de espaço, as áreas solicitadas e os demais objetos definidos no cenário da simulação.
+
+**Detalhes:**
+
+* **Header:** Visualização Geoespacial
+* **Level:** 2.0
+* **Normativo:** `true`
+* **Referência:** (não especificada)
+* **Revisado:** `true`
+* **Texto:**
+
+```
+O sistema deve disponibilizar uma visualização geoespacial em mapa interativo, atualizada em tempo real, que exiba obrigatoriamente: posições de aeronaves, posição de drones, as restrições de uso de espaço, as áreas solicitadas e os demais objetos definidos no cenário da simulação. A visualização deve refletir o estado atual da simulação conforme os dados produzidos pelo motor de simulação e deve permitir que gestores, operadores e analistas acompanhem a execução para fins de conscientização situacional.
+```
+
+---
+
+## Configuração do GitHub
+
+### Autenticação no GitHub
+
+Para interagir com o repositório, foi configurado o **Token de Acesso Pessoal (PAT)**, que substitui a autenticação por senha. Esse token foi configurado para que o Git não peça as credenciais repetidamente.
+
+#### Passos para configurar a autenticação com o Token:
+
+1. Gerar um Token de Acesso Pessoal no GitHub com a permissão `repo`.
+2. Configurar o Git para armazenar as credenciais de forma segura, utilizando o helper `store` ou `cache`.
+3. Quando o Git pedir a senha, fornecer o **Token de Acesso Pessoal** gerado no GitHub.
+
+---
+
+## Comandos Git Utilizados
+
+Durante o processo, os seguintes comandos Git foram usados:
+
+1. **Criação de uma nova branch**:
+
+   ```bash
+   git checkout -b feat/REQ-SIM-1
+   ```
+
+2. **Adicionar, commit e push de mudanças**:
+
+   ```bash
+   git add .
+   git commit -m "Adicionando requisitos SIM001 e SIM002"
+   git push -u origin feat/REQ-SIM-1
+   ```
+
+3. **Configuração do repositório remoto (caso necessário)**:
+
+   ```bash
+   git remote set-url origin https://github.com/clubfullstack/recs_sac.git
+   ```
+
+4. **Configuração de usuário e email no Git**:
+
+   ```bash
+   git config --global user.name "clubfullstack"
+   git config --global user.email "seu-email@dominio.com"
+   ```
+
+---
+
+## Próximos Passos
+
+* Continuar adicionando requisitos conforme o progresso do projeto.
+* Manter o controle de versão e os requisitos organizados no repositório.
+
+---
